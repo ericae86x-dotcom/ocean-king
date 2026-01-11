@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ocean King</title>
+
+  <link href="style/main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x920.png"  media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone, retina -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+</head>
+<body>
+  <div style="display:none;">
+    <audio id="audio-bgm" src="audio/bgm.mp3" loop preload="auto"></audio>
+    <audio id="audio-move" src="audio/move.mp3" preload="auto"></audio>
+    <audio id="audio-merge" src="audio/merge.mp3" preload="auto"></audio>
+    <audio id="audio-gameover" src="audio/gameover.mp3" preload="auto"></audio>
+    <audio id="audio-btn" src="audio/button.mp3" preload="auto"></audio>
+    <audio id="audio-newgame" src="audio/newgame.mp3" preload="auto"></audio>
+    <audio id="audio-win" src="audio/win.mp3" preload="auto"></audio>
+</div>
+  <div class="container">
+    <div class="heading">
+      <h1 class="title">Ocean King</h1>
+      <div class="scores-container">
+        <div class="score-container">0</div>
+        <div class="best-container">0</div>
+      </div>
+    </div>
+
+    <div class="above-game">
+      <p class="game-intro">Swipe to swim. Merge identical fish to unleash the <strong>Leviathan!</strong></p>
+      
+      <div class="buttons-wrapper">
+        <a class="restart-button">New Game</a>
+        <a class="undo-button">📺 Undo</a>
+      </div>
+    </div>
+
+    <div class="game-container">
+      <div class="game-message">
+        <p></p>
+        <div class="lower">
+	        <a class="keep-playing-button">Keep going</a>
+          <a class="retry-button">Try again</a>
+        </div>
+      </div>
+
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+      </div>
+
+      <div class="tile-container">
+
+      </div>
+    </div>
+
+    <p class="game-explanation">
+      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move. When two identical fish touch, they <strong>evolve into a bigger one!</strong>
+    </p>
+   <p>
+      Ocean King Mod by <strong>[Eric]</strong>.<br>
+      Original game created by Gabriele Cirulli.
+    </p>
+  </div>
+
+  <script src="js/bind_polyfill.js"></script>
+  <script src="js/classlist_polyfill.js"></script>
+  <script src="js/animframe_polyfill.js"></script>
+  <script src="js/keyboard_input_manager.js"></script>
+  <script src="js/html_actuator.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/tile.js"></script>
+  <script src="js/local_storage_manager.js"></script>
+  <script src="js/game_manager.js"></script>
+  <script src="js/application.js"></script>
+ <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // 1. 获取音频对象
+        var bgmAudio = document.getElementById('audio-bgm');
+        var newGameAudio = document.getElementById('audio-newgame');
+        var btnAudio = document.getElementById('audio-btn');
+
+        // 2. 获取按钮对象
+        var newGameBtn = document.querySelector('.restart-button');
+        var tryAgainBtn = document.querySelector('.retry-button');
+        var keepGoingBtn = document.querySelector('.keep-playing-button'); // 这个就是胜利后的继续按钮
+
+        // 3. 通用绑定函数
+        function bindSound(element, audio, isNewGame) {
+            if (!element) return;
+
+            var playHandler = function(event) {
+                // 播放音效
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.play().catch(e => console.log("音效播放被阻挡", e));
+                }
+
+                // 如果是 New Game，额外启动 BGM
+                if (isNewGame && bgmAudio) {
+                    if (bgmAudio.paused) {
+                        bgmAudio.volume = 0.3;
+                        bgmAudio.play().catch(e => console.log("BGM启动失败", e));
+                    }
+                }
+            };
+
+            element.addEventListener('click', playHandler);
+            element.addEventListener('touchend', playHandler); // 手机端关键
+        }
+
+        // 4. 执行绑定
+        bindSound(newGameBtn, newGameAudio, true);   // New Game -> 启动音 + BGM
+        bindSound(tryAgainBtn, btnAudio, false);     // Try Again -> 按钮音
+        bindSound(keepGoingBtn, btnAudio, false);    // Keep Going -> 按钮音 (这里确保加上了)
+        // --- 浩哥新增：撤销按钮逻辑 ---
+        var undoBtn = document.querySelector('.undo-button');
+        
+        if (undoBtn) {
+            // 绑定点击事件
+            var handleUndo = function(e) {
+                e.preventDefault();
+
+                // 获取游戏管理器实例 (这是一个黑科技，直接从全局获取)
+                // 也可以在 application.js 里把 manager 挂载到 window 上
+                // 但这里我们用更简单的方法：检查 window.gameManager 是否存在
+                // *注意*：为了让这一步生效，我们需要去 application.js 改一行代码
+                
+                if (window.gameManager) {
+                    if (!window.gameManager.history) {
+                        alert("Play a move first!");
+                        return;
+                    }
+
+                    // --- 模拟广告位 ---
+                    // 以后这里换成 Adsgram 的代码：
+                    // AdController.show().then((result) => { if(result.done) window.gameManager.undo(); })
+                    
+                    var watchAd = confirm("📺 Watch a short video to Undo your last move?");
+                    if (watchAd) {
+                        // 模拟广告加载过程
+                        undoBtn.innerText = "Loading Ad...";
+                        setTimeout(function() {
+                            // 广告看完，执行撤销
+                            window.gameManager.undo();
+                            undoBtn.innerText = "📺 Undo";
+                            // 播放一个成功的音效（可以用 newgame 音效）
+                            var okAudio = document.getElementById('audio-newgame');
+                            if(okAudio) okAudio.play();
+                        }, 1000); // 假装加载了1秒
+                    }
+                }
+            };
+            
+            undoBtn.addEventListener('click', handleUndo);
+            undoBtn.addEventListener('touchend', handleUndo);
+        }
+    });
+  </script>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,1111 @@
+@import url(fonts/clear-sans.css);
+/* html, body {
+  margin: 0;
+  padding: 0;
+  background: #faf8ef;
+  color: #776e65;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px; } */
+  html, body {
+  margin: 0;
+  padding: 0;
+  
+background-image: url('../img/bg.jpg'); /* 记得用 jpg */
+  
+  /* 关键修改： */
+  background-size: cover;           /* 手机端：铺满 */
+  background-position: center top;  /* 电脑端：从顶部开始裁切（保留海面的光） */
+  background-attachment: fixed;     /* 电脑端：背景不随滚动条滚动，像原生App */
+  background-color: #006994;        /* 兜底色：万一图片加载不出来，显示这个深海蓝 */
+  
+  /* --- 字体颜色调整 --- */
+  color: #ffffff; /* 深海背景下，把字改成白色才看得清 */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* 给文字加个阴影，防止看不清 */
+  
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px; 
+}
+
+body {
+  margin: 80px 0; }
+
+.heading {
+    margin-bottom: 20px; /* 稍微拉开一点和棋盘的距离 */
+}
+.heading:after {
+  content: "";
+  display: block;
+  clear: both; 
+}
+
+h1.title {
+  font-size: 42px;  /* 改成 42px，刚好能放下 Ocean King */
+  line-height: 55px; /* 增加行高，让它和右边的分数框垂直居中对齐 */
+  font-weight: bold;
+  margin: 0;
+  display: block;
+  float: left; }
+
+@-webkit-keyframes move-up {
+  0% {
+    top: 25px;
+    opacity: 1; }
+
+  100% {
+    top: -50px;
+    opacity: 0; } }
+@-moz-keyframes move-up {
+  0% {
+    top: 25px;
+    opacity: 1; }
+
+  100% {
+    top: -50px;
+    opacity: 0; } }
+@keyframes move-up {
+  0% {
+    top: 25px;
+    opacity: 1; }
+
+  100% {
+    top: -50px;
+    opacity: 0; } }
+/* --- 浩哥定制：深海仪表盘计分板 --- */
+
+.scores-container {
+  float: right;
+  text-align: right;
+}
+
+.score-container, .best-container {
+  position: relative;
+  display: inline-block;
+  
+  /* 核心颜值：磨砂玻璃效果 */
+  background: rgba(255, 255, 255, 0.15); /* 15%透明度的白色 */
+  backdrop-filter: blur(8px);            /* 毛玻璃模糊 */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* 淡淡的发光边框 */
+  
+  padding: 10px 20px; /* 调整内边距，让它看起来更轻盈 */
+  font-size: 25px;
+  height: 25px;       /* 这里的height其实只限制了字的高度，盒子会被padding撑开 */
+  line-height: 47px;
+  font-weight: bold;
+  border-radius: 15px; /* 圆角变大，像气泡 */
+  color: #ffffff;      /* 纯白数字，清晰可见 */
+  text-shadow: 0 0 5px rgba(0, 168, 255, 0.6); /* 给数字加一点蓝色荧光 */
+  margin-top: 0px;     /* 对齐微调 */
+  margin-left: 5px;    /* 两个框之间留点缝隙 */
+  text-align: center;
+  min-width: 50px;     /* 保证最小宽度，不会因为数字小就缩成一团 */
+}
+
+/* 标签文字 (SCORE / BEST) 的样式 */
+.score-container:after, .best-container:after {
+  position: absolute;
+  width: 100%;
+  top: 6px;
+  left: 0;
+  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 11px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7); /* 标签稍微淡一点，突出下面的分数 */
+  letter-spacing: 1px; /* 字母间距拉开一点，显得高级 */
+}
+
+.score-container:after {
+  content: "Score"; 
+}
+
+.best-container:after {
+  content: "Best"; 
+}
+
+/* 加分动画 (+4) 的样式 */
+.score-container .score-addition, .best-container .score-addition {
+  position: absolute;
+  right: 10px;
+  
+  /* 关键修改：加分的颜色要醒目 */
+  color: #FFD700; /* 金色！像金币一样 */
+  text-shadow: 0 0 2px #000; /* 加个黑色描边，防止看不清 */
+  
+  font-size: 25px;
+  line-height: 25px;
+  font-weight: bold;
+  z-index: 100;
+  -webkit-animation: move-up 600ms ease-in;
+  -moz-animation: move-up 600ms ease-in;
+  animation: move-up 600ms ease-in;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both; 
+}
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+  line-height: 1.65; }
+
+a {
+  color: #776e65;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer; }
+
+strong.important {
+  text-transform: uppercase; }
+
+hr {
+  border: none;
+  border-bottom: 1px solid #d8d4d0;
+  margin-top: 20px;
+  margin-bottom: 30px; }
+
+.container {
+  width: 500px;
+  margin: 0 auto; }
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0; }
+
+  100% {
+    opacity: 1; } }
+@-moz-keyframes fade-in {
+  0% {
+    opacity: 0; }
+
+  100% {
+    opacity: 1; } }
+@keyframes fade-in {
+  0% {
+    opacity: 0; }
+
+  100% {
+    opacity: 1; } }
+.game-container {
+  margin-top: 40px;
+  position: relative;
+  padding: 15px;
+  cursor: default;
+  -webkit-touch-callout: none;
+  -ms-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -ms-touch-action: none;
+  touch-action: none;
+  /* 原来的 background: #bbada0; 删掉，换成下面这行 */
+  background: rgba(255, 255, 255, 0.2); /* 20%透明度的白色，看起来像气泡框 */
+  border: 2px solid rgba(255, 255, 255, 0.5); /* 加个边框 */
+  backdrop-filter: blur(5px); /* (高级) 让背景稍微模糊一点，毛玻璃效果 */
+  border-radius: 6px;
+  width: 500px;
+  height: 500px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+  .game-container .game-message {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(238, 228, 218, 0.5);
+    z-index: 100;
+    text-align: center;
+    -webkit-animation: fade-in 400ms ease 100ms; /* 400ms出现，仅延迟0.1秒 */
+    -moz-animation: fade-in 400ms ease 100ms;
+    animation: fade-in 400ms ease 100ms;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    animation-fill-mode: both; }
+    .game-container .game-message p {
+      font-size: 60px;
+      font-weight: bold;
+      height: 60px;
+      line-height: 60px;
+      margin-top: 222px; }
+    .game-container .game-message .lower {
+      display: block;
+      margin-top: 59px; }
+    .game-container .game-message a {
+      display: inline-block;
+      background: #8f7a66;
+      border-radius: 3px;
+      padding: 0 20px;
+      text-decoration: none;
+      color: #f9f6f2;
+      height: 40px;
+      line-height: 42px;
+      margin-left: 9px; }
+      .game-container .game-message a.keep-playing-button {
+        display: none; }
+    .game-container .game-message.game-won {
+      background: rgba(237, 194, 46, 0.5);
+      color: #f9f6f2; }
+      .game-container .game-message.game-won a.keep-playing-button {
+        display: inline-block; }
+    .game-container .game-message.game-won, .game-container .game-message.game-over {
+      display: block; }
+
+.grid-container {
+  position: absolute;
+  z-index: 1; }
+
+.grid-row {
+  margin-bottom: 15px; }
+  .grid-row:last-child {
+    margin-bottom: 0; }
+  .grid-row:after {
+    content: "";
+    display: block;
+    clear: both; }
+
+.grid-cell {
+  width: 106.25px;
+  height: 106.25px;
+  margin-right: 15px;
+  float: left;
+  border-radius: 3px;
+  background: rgba(238, 228, 218, 0.35); }
+  .grid-cell:last-child {
+    margin-right: 0; }
+
+.tile-container {
+  position: absolute;
+  z-index: 2; }
+
+.tile, .tile .tile-inner {
+  width: 107px;
+  height: 107px;
+  line-height: 107px; }
+.tile.tile-position-1-1 {
+  -webkit-transform: translate(0px, 0px);
+  -moz-transform: translate(0px, 0px);
+  -ms-transform: translate(0px, 0px);
+  transform: translate(0px, 0px); }
+.tile.tile-position-1-2 {
+  -webkit-transform: translate(0px, 121px);
+  -moz-transform: translate(0px, 121px);
+  -ms-transform: translate(0px, 121px);
+  transform: translate(0px, 121px); }
+.tile.tile-position-1-3 {
+  -webkit-transform: translate(0px, 242px);
+  -moz-transform: translate(0px, 242px);
+  -ms-transform: translate(0px, 242px);
+  transform: translate(0px, 242px); }
+.tile.tile-position-1-4 {
+  -webkit-transform: translate(0px, 363px);
+  -moz-transform: translate(0px, 363px);
+  -ms-transform: translate(0px, 363px);
+  transform: translate(0px, 363px); }
+.tile.tile-position-2-1 {
+  -webkit-transform: translate(121px, 0px);
+  -moz-transform: translate(121px, 0px);
+  -ms-transform: translate(121px, 0px);
+  transform: translate(121px, 0px); }
+.tile.tile-position-2-2 {
+  -webkit-transform: translate(121px, 121px);
+  -moz-transform: translate(121px, 121px);
+  -ms-transform: translate(121px, 121px);
+  transform: translate(121px, 121px); }
+.tile.tile-position-2-3 {
+  -webkit-transform: translate(121px, 242px);
+  -moz-transform: translate(121px, 242px);
+  -ms-transform: translate(121px, 242px);
+  transform: translate(121px, 242px); }
+.tile.tile-position-2-4 {
+  -webkit-transform: translate(121px, 363px);
+  -moz-transform: translate(121px, 363px);
+  -ms-transform: translate(121px, 363px);
+  transform: translate(121px, 363px); }
+.tile.tile-position-3-1 {
+  -webkit-transform: translate(242px, 0px);
+  -moz-transform: translate(242px, 0px);
+  -ms-transform: translate(242px, 0px);
+  transform: translate(242px, 0px); }
+.tile.tile-position-3-2 {
+  -webkit-transform: translate(242px, 121px);
+  -moz-transform: translate(242px, 121px);
+  -ms-transform: translate(242px, 121px);
+  transform: translate(242px, 121px); }
+.tile.tile-position-3-3 {
+  -webkit-transform: translate(242px, 242px);
+  -moz-transform: translate(242px, 242px);
+  -ms-transform: translate(242px, 242px);
+  transform: translate(242px, 242px); }
+.tile.tile-position-3-4 {
+  -webkit-transform: translate(242px, 363px);
+  -moz-transform: translate(242px, 363px);
+  -ms-transform: translate(242px, 363px);
+  transform: translate(242px, 363px); }
+.tile.tile-position-4-1 {
+  -webkit-transform: translate(363px, 0px);
+  -moz-transform: translate(363px, 0px);
+  -ms-transform: translate(363px, 0px);
+  transform: translate(363px, 0px); }
+.tile.tile-position-4-2 {
+  -webkit-transform: translate(363px, 121px);
+  -moz-transform: translate(363px, 121px);
+  -ms-transform: translate(363px, 121px);
+  transform: translate(363px, 121px); }
+.tile.tile-position-4-3 {
+  -webkit-transform: translate(363px, 242px);
+  -moz-transform: translate(363px, 242px);
+  -ms-transform: translate(363px, 242px);
+  transform: translate(363px, 242px); }
+.tile.tile-position-4-4 {
+  -webkit-transform: translate(363px, 363px);
+  -moz-transform: translate(363px, 363px);
+  -ms-transform: translate(363px, 363px);
+  transform: translate(363px, 363px); }
+
+.tile {
+  position: absolute;
+  -webkit-transition: 100ms ease-in-out;
+  -moz-transition: 100ms ease-in-out;
+  transition: 100ms ease-in-out;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  transition-property: transform; }
+  .tile .tile-inner {
+    border-radius: 3px;
+    background: #eee4da;
+    text-align: center;
+    font-weight: bold;
+    z-index: 10;
+    font-size: 55px; }
+  .tile.tile-2 .tile-inner {
+    background: #eee4da;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+  .tile.tile-4 .tile-inner {
+    background: #ede0c8;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+  .tile.tile-8 .tile-inner {
+    color: #f9f6f2;
+    background: #f2b179; }
+  .tile.tile-16 .tile-inner {
+    color: #f9f6f2;
+    background: #f59563; }
+  .tile.tile-32 .tile-inner {
+    color: #f9f6f2;
+    background: #f67c5f; }
+  .tile.tile-64 .tile-inner {
+    color: #f9f6f2;
+    background: #f65e3b; }
+  .tile.tile-128 .tile-inner {
+    color: #f9f6f2;
+    background: #edcf72;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381), inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
+    font-size: 45px; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-128 .tile-inner {
+        font-size: 25px; } }
+  .tile.tile-256 .tile-inner {
+    color: #f9f6f2;
+    background: #edcc61;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.19048);
+    font-size: 45px; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-256 .tile-inner {
+        font-size: 25px; } }
+  .tile.tile-512 .tile-inner {
+    color: #f9f6f2;
+    background: #edc850;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.39683), inset 0 0 0 1px rgba(255, 255, 255, 0.2381);
+    font-size: 45px; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-512 .tile-inner {
+        font-size: 25px; } }
+  .tile.tile-1024 .tile-inner {
+    color: #f9f6f2;
+    background: #edc53f;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
+    font-size: 35px; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-1024 .tile-inner {
+        font-size: 15px; } }
+  .tile.tile-2048 .tile-inner {
+    color: #f9f6f2;
+    background: #edc22e;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.55556), inset 0 0 0 1px rgba(255, 255, 255, 0.33333);
+    font-size: 35px; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-2048 .tile-inner {
+        font-size: 15px; } }
+  .tile.tile-super .tile-inner {
+    color: #f9f6f2;
+    background: #3c3a32;
+    font-size: 30px; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-super .tile-inner {
+        font-size: 10px; } }
+
+@-webkit-keyframes appear {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0); }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+@-moz-keyframes appear {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0); }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+@keyframes appear {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0); }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+.tile-new .tile-inner {
+  -webkit-animation: appear 200ms ease 100ms;
+  -moz-animation: appear 200ms ease 100ms;
+  animation: appear 200ms ease 100ms;
+  -webkit-animation-fill-mode: backwards;
+  -moz-animation-fill-mode: backwards;
+  animation-fill-mode: backwards; }
+
+@-webkit-keyframes pop {
+  0% {
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0); }
+
+  50% {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+
+  100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+@-moz-keyframes pop {
+  0% {
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0); }
+
+  50% {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+
+  100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+@keyframes pop {
+  0% {
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0); }
+
+  50% {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2); }
+
+  100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); } }
+.tile-merged .tile-inner {
+  z-index: 20;
+  -webkit-animation: pop 200ms ease 100ms;
+  -moz-animation: pop 200ms ease 100ms;
+  animation: pop 200ms ease 100ms;
+  -webkit-animation-fill-mode: backwards;
+  -moz-animation-fill-mode: backwards;
+  animation-fill-mode: backwards; }
+
+.above-game:after {
+  content: "";
+  display: block;
+  clear: both; }
+
+.game-intro {
+  float: left;
+  line-height: 42px;
+  margin-bottom: 0; }
+
+.restart-button {
+  display: inline-block;
+  background: #8f7a66;
+  border-radius: 3px;
+  padding: 0 20px;
+  text-decoration: none;
+  color: #f9f6f2;
+  height: 40px;
+  line-height: 42px;
+  display: block;
+  text-align: center;
+  float: right; }
+
+.game-explanation {
+  margin-top: 50px; }
+
+@media screen and (max-width: 520px) {
+  html, body {
+    font-size: 15px; }
+
+  body {
+    margin: 20px 0;
+    padding: 0 20px; }
+
+  h1.title {
+    font-size: 18px;  /* 手机上 18px-20px 比较安全 */
+    margin-top: 22px; /* 因为字变小了，往下挪一点才好看 */
+    white-space: nowrap; /* 强制不换行，防止 Ocean 掉下来 */
+  }
+
+  .container {
+    width: 280px;
+    margin: 0 auto;
+    
+    /* --- 浩哥放大招：强制放大 1.25 倍 --- */
+    transform: scale(1.25);       /* 放大倍数：1.25倍 (适合绝大多数手机) */
+    transform-origin: top center; /* 设定缩放支点：从顶部中间开始放大 */
+    margin-top: 10px;             /* 稍微给顶部一点距离，防止标题顶到刘海屏 */
+    margin-bottom: 50px;          /* 给底部留足空间，防止被放大后遮挡 */
+  }
+
+  .score-container, .best-container {
+    margin-top: 0;
+    padding: 15px 10px;
+    min-width: 40px; }
+
+  .heading {
+    margin-bottom: 10px; }
+
+  .game-intro {
+    width: 55%;
+    display: block;
+    box-sizing: border-box;
+    line-height: 1.65; }
+
+  .restart-button {
+    width: 42%;
+    padding: 0;
+    display: block;
+    box-sizing: border-box;
+    margin-top: 2px; }
+
+  .game-container {
+    margin-top: 17px;
+    position: relative;
+    padding: 10px;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -ms-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    background: #bbada0;
+    border-radius: 6px;
+    width: 280px;
+    height: 280px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+    .game-container .game-message {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(238, 228, 218, 0.5);
+      z-index: 100;
+      text-align: center;
+      -webkit-animation: fade-in 800ms ease 1200ms;
+      -moz-animation: fade-in 800ms ease 1200ms;
+      animation: fade-in 800ms ease 1200ms;
+      -webkit-animation-fill-mode: both;
+      -moz-animation-fill-mode: both;
+      animation-fill-mode: both; }
+      .game-container .game-message p {
+        font-size: 60px;
+        font-weight: bold;
+        height: 60px;
+        line-height: 60px;
+        margin-top: 222px; }
+      .game-container .game-message .lower {
+        display: block;
+        margin-top: 59px; }
+      .game-container .game-message a {
+        display: inline-block;
+        background: #8f7a66;
+        border-radius: 3px;
+        padding: 0 20px;
+        text-decoration: none;
+        color: #f9f6f2;
+        height: 40px;
+        line-height: 42px;
+        margin-left: 9px; }
+        .game-container .game-message a.keep-playing-button {
+          display: none; }
+      .game-container .game-message.game-won {
+        background: rgba(237, 194, 46, 0.5);
+        color: #f9f6f2; }
+        .game-container .game-message.game-won a.keep-playing-button {
+          display: inline-block; }
+      .game-container .game-message.game-won, .game-container .game-message.game-over {
+        display: block; }
+
+  .grid-container {
+    position: absolute;
+    z-index: 1; }
+
+  .grid-row {
+    margin-bottom: 10px; }
+    .grid-row:last-child {
+      margin-bottom: 0; }
+    .grid-row:after {
+      content: "";
+      display: block;
+      clear: both; }
+
+  .grid-cell {
+    width: 57.5px;
+    height: 57.5px;
+    margin-right: 10px;
+    float: left;
+    border-radius: 3px;
+    background: rgba(238, 228, 218, 0.35); }
+    .grid-cell:last-child {
+      margin-right: 0; }
+
+  .tile-container {
+    position: absolute;
+    z-index: 2; }
+
+  .tile, .tile .tile-inner {
+    width: 58px;
+    height: 58px;
+    line-height: 58px; }
+  .tile.tile-position-1-1 {
+    -webkit-transform: translate(0px, 0px);
+    -moz-transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    transform: translate(0px, 0px); }
+  .tile.tile-position-1-2 {
+    -webkit-transform: translate(0px, 67px);
+    -moz-transform: translate(0px, 67px);
+    -ms-transform: translate(0px, 67px);
+    transform: translate(0px, 67px); }
+  .tile.tile-position-1-3 {
+    -webkit-transform: translate(0px, 135px);
+    -moz-transform: translate(0px, 135px);
+    -ms-transform: translate(0px, 135px);
+    transform: translate(0px, 135px); }
+  .tile.tile-position-1-4 {
+    -webkit-transform: translate(0px, 202px);
+    -moz-transform: translate(0px, 202px);
+    -ms-transform: translate(0px, 202px);
+    transform: translate(0px, 202px); }
+  .tile.tile-position-2-1 {
+    -webkit-transform: translate(67px, 0px);
+    -moz-transform: translate(67px, 0px);
+    -ms-transform: translate(67px, 0px);
+    transform: translate(67px, 0px); }
+  .tile.tile-position-2-2 {
+    -webkit-transform: translate(67px, 67px);
+    -moz-transform: translate(67px, 67px);
+    -ms-transform: translate(67px, 67px);
+    transform: translate(67px, 67px); }
+  .tile.tile-position-2-3 {
+    -webkit-transform: translate(67px, 135px);
+    -moz-transform: translate(67px, 135px);
+    -ms-transform: translate(67px, 135px);
+    transform: translate(67px, 135px); }
+  .tile.tile-position-2-4 {
+    -webkit-transform: translate(67px, 202px);
+    -moz-transform: translate(67px, 202px);
+    -ms-transform: translate(67px, 202px);
+    transform: translate(67px, 202px); }
+  .tile.tile-position-3-1 {
+    -webkit-transform: translate(135px, 0px);
+    -moz-transform: translate(135px, 0px);
+    -ms-transform: translate(135px, 0px);
+    transform: translate(135px, 0px); }
+  .tile.tile-position-3-2 {
+    -webkit-transform: translate(135px, 67px);
+    -moz-transform: translate(135px, 67px);
+    -ms-transform: translate(135px, 67px);
+    transform: translate(135px, 67px); }
+  .tile.tile-position-3-3 {
+    -webkit-transform: translate(135px, 135px);
+    -moz-transform: translate(135px, 135px);
+    -ms-transform: translate(135px, 135px);
+    transform: translate(135px, 135px); }
+  .tile.tile-position-3-4 {
+    -webkit-transform: translate(135px, 202px);
+    -moz-transform: translate(135px, 202px);
+    -ms-transform: translate(135px, 202px);
+    transform: translate(135px, 202px); }
+  .tile.tile-position-4-1 {
+    -webkit-transform: translate(202px, 0px);
+    -moz-transform: translate(202px, 0px);
+    -ms-transform: translate(202px, 0px);
+    transform: translate(202px, 0px); }
+  .tile.tile-position-4-2 {
+    -webkit-transform: translate(202px, 67px);
+    -moz-transform: translate(202px, 67px);
+    -ms-transform: translate(202px, 67px);
+    transform: translate(202px, 67px); }
+  .tile.tile-position-4-3 {
+    -webkit-transform: translate(202px, 135px);
+    -moz-transform: translate(202px, 135px);
+    -ms-transform: translate(202px, 135px);
+    transform: translate(202px, 135px); }
+  .tile.tile-position-4-4 {
+    -webkit-transform: translate(202px, 202px);
+    -moz-transform: translate(202px, 202px);
+    -ms-transform: translate(202px, 202px);
+    transform: translate(202px, 202px); }
+
+  .tile .tile-inner {
+    font-size: 35px; }
+
+  .game-message p {
+    font-size: 30px !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    margin-top: 90px !important; }
+  .game-message .lower {
+    margin-top: 30px !important; } }
+/* --- 浩哥修复版：大鱼吃小鱼 (强制覆盖) --- */
+
+/* 1. 核心设定：修复重叠问题，增加海水背景 */
+.tile .tile-inner {
+    background-size: cover !important;       
+    background-repeat: no-repeat !important; 
+    background-position: center !important;  
+    font-size: 0 !important;                 
+    line-height: 0 !important;
+    color: transparent !important;           
+    box-shadow: none !important;             
+    
+    /* --- 关键修改看这里 --- */
+    /* 不要用 transparent，改成淡蓝色海水，或者是白色 */
+    /* #ebf8ff 是很淡的淡蓝色，看起来像水 */
+    background-color: #ebf8ff !important; 
+    
+    /* 如果你觉得方块太死板，可以把圆角改大一点，看起来像气泡 */
+    border-radius: 15px !important;
+}
+
+/* 2. 对应等级图片映射 (加了 .tile 前缀和 !important 确保显示) */
+
+.tile.tile-2 .tile-inner    { background-image: url('../img/2.png') !important; }
+.tile.tile-4 .tile-inner    { background-image: url('../img/4.png') !important; }
+.tile.tile-8 .tile-inner    { background-image: url('../img/8.png') !important; }
+.tile.tile-16 .tile-inner   { background-image: url('../img/16.png') !important; }
+.tile.tile-32 .tile-inner   { background-image: url('../img/32.png') !important; }
+.tile.tile-64 .tile-inner   { background-image: url('../img/64.png') !important; }
+.tile.tile-128 .tile-inner  { background-image: url('../img/128.png') !important; }
+.tile.tile-256 .tile-inner  { background-image: url('../img/256.png') !important; }
+.tile.tile-512 .tile-inner  { background-image: url('../img/512.png') !important; }
+.tile.tile-1024 .tile-inner { background-image: url('../img/1024.png') !important; }
+.tile.tile-2048 .tile-inner { background-image: url('../img/2048.png') !important; }
+
+/* 3. 超级高分备用 */
+.tile.tile-super .tile-inner { background-image: url('../img/2048.png') !important; }
+
+/* --- 浩哥定制：海洋之光按钮组 --- */
+
+/* 1. 顶部的 "New Game" 按钮 */
+.restart-button {
+  /* 渐变色：从浅蓝到深蓝 */
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+  
+  /* 阴影：带颜色的发光阴影 */
+  box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4) !important;
+  
+  border-radius: 25px !important;  /* 变成圆润的胶囊形状 */
+  color: #fff !important;          /* 字体纯白 */
+  font-weight: 800 !important;     /* 字体加粗 */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;       /* 添加动画过渡 */
+  border: none !important;
+}
+
+/* 鼠标按下去/手指点下去的特效 */
+.restart-button:active {
+  transform: scale(0.95); /* 稍微缩小一点，产生按压感 */
+  box-shadow: 0 2px 8px rgba(0, 242, 254, 0.6) !important;
+}
+
+/* 2. 游戏结束时的 "Try again" 和 "Keep going" 按钮 */
+.game-container .game-message a.keep-playing-button,
+.game-container .game-message a.retry-button {
+  /* 渐变色：用稍微不同一点的深海蓝，区分于顶部的按钮 */
+  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%) !important;
+  
+  box-shadow: 0 4px 15px rgba(0, 91, 234, 0.5) !important;
+  border-radius: 25px !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  border: none !important;
+  
+  /* 确保按钮够大，容易点 */
+  padding: 0 25px !important;
+  height: 45px !important;
+  line-height: 45px !important;
+  transition: all 0.2s ease;
+}
+
+/* 游戏结束按钮的按压特效 */
+.game-container .game-message a.keep-playing-button:active,
+.game-container .game-message a.retry-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 91, 234, 0.7) !important;
+}
+
+/* 3. 游戏结束面板的背景微调 */
+/* 让失败界面的蒙层不要那么黄，改成深海黑半透明 */
+.game-container .game-message.game-over {
+    background: rgba(0, 20, 40, 0.8) !important; /* 深蓝黑色 */
+    backdrop-filter: blur(5px); /* 毛玻璃模糊 */
+}
+.game-container .game-message.game-won {
+    background: rgba(255, 215, 0, 0.5) !important; /* 胜利时是金色半透明 */
+    backdrop-filter: blur(5px);
+}
+
+/* 修正结束语文字颜色 (原本是深灰，深色背景看不清) */
+.game-container .game-message p {
+    color: #fff !important;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.8); /* 文字发光 */
+}
+/* --- 浩哥终极补丁：强制修复手机端背景颜色 --- */
+@media screen and (max-width: 520px) {
+  
+  /* 1. 把手机端的大棋盘背景改成透明深海风 */
+  .game-container {
+    background: rgba(255, 255, 255, 0.2) !important; /* 20%透明度白色 */
+    border: 2px solid rgba(255, 255, 255, 0.5) !important; /* 加个边框 */
+    backdrop-filter: blur(5px); /* 毛玻璃特效 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 加点阴影更有立体感 */
+  }
+
+  /* 2. 把手机端那16个空格子也改成磨砂质感 */
+  /* 原来是像泥土一样的半透明棕色，现在改成半透明白 */
+  .grid-cell {
+    background: rgba(255, 255, 255, 0.15) !important; 
+    border-radius: 6px !important; /* 圆角稍微大一点点 */
+  }
+}
+/* --- 浩哥定制：胜利界面的奖杯展示 --- */
+
+/* 1. 胜利图片的样式 */
+.win-trophy {
+  width: 150px;       /* 控制图片大小，不要太巨大 */
+  height: 150px;
+  margin-top: 15px;   /* 和上面的文字拉开点距离 */
+  margin-bottom: 10px;/* 和下面的按钮拉开点距离 */
+  
+  border-radius: 15px; /* 给图片一点圆角 */
+  
+  /* 核心特效：神圣光环 */
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); /* 金色的光晕 */
+  border: 2px solid rgba(255, 255, 255, 0.5);  /* 半透明白边 */
+  
+  /* 进阶：加一个悬浮呼吸动画，让它看起来是活的 */
+  animation: float-trophy 3s ease-in-out infinite;
+}
+
+/* 2. 定义悬浮呼吸动画 */
+@keyframes float-trophy {
+  0% {
+    transform: translateY(0px) scale(1);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05); /* 稍微往上飘一点，变大一点 */
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.9); /* 光晕变强 */
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  }
+}
+
+/* 3. 微调胜利界面的文字位置 */
+.game-message.game-won p {
+    margin-top: 150px !important; /* 原来是222px，因为加了图片，要把文字往上提，给图片腾位置 */
+    line-height: 1.2 !important;  /* 防止文字和图片行间距太宽 */
+    font-size: 50px !important;   /* 稍微调整字号 */
+}
+
+/* 针对手机端的适配调整 */
+@media screen and (max-width: 520px) {
+    .win-trophy {
+        width: 120px; /* 手机上图片稍微小一点 */
+        height: 120px;
+    }
+    .game-message.game-won p {
+        margin-top: 60px !important; /* 手机上空间小，文字要提得更高 */
+        font-size: 40px !important;
+    }
+}
+/* --- 浩哥终极修正：完美居中 + 手机适配 (已修复一直显示的问题) --- */
+
+/* 1. 启用 Flexbox 弹性布局 (只在游戏结束/胜利时生效！) */
+/* 之前的问题就出在这里，我们必须指定 .game-won 和 .game-over */
+.game-container .game-message.game-won,
+.game-container .game-message.game-over {
+  display: flex !important;       /* 只有赢了或输了，才开启 Flex 布局 */
+  flex-direction: column;         /* 内容从上到下排列 */
+  justify-content: center;        /* 垂直方向：自动居中 */
+  align-items: center;            /* 水平方向：自动居中 */
+}
+
+/* 2. 重置文字样式 (清除之前的 margin hack) */
+.game-container .game-message p {
+  margin-top: 0 !important;       /* 关键！取消之前写的固定间距，让 flex 自动算 */
+  padding-bottom: 0 !important;
+  height: auto !important;        /* 高度自动 */
+  line-height: 1.1 !important;    /* 行高紧凑一点 */
+  font-size: 55px !important;     /* 电脑端字号，大一点才霸气 */
+}
+
+/* 3. 奖杯图片微调 */
+.win-trophy {
+  /* 电脑端尺寸 */
+  width: 140px;
+  height: 140px;
+  margin: 20px 0; /* 上下留白，防止挤得慌 */
+  
+  /* 之前的特效保留 */
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  animation: float-trophy 3s ease-in-out infinite;
+}
+
+/* 4. 按钮区域微调 */
+.game-container .game-message .lower {
+  margin-top: 0 !important; /* 不需要额外推了，flex 会自动处理间距 */
+  display: block !important;
+  z-index: 300;
+}
+
+/* --- 手机端专属修复 (解决换行和挤出问题) --- */
+@media screen and (max-width: 520px) {
+  
+  /* A. 字号缩水：防止 Ocean Dominator 换行 */
+  .game-container .game-message p {
+    font-size: 28px !important;   /* 降到 28px，保证一行能放下最长的单词 */
+  }
+  
+  /* B. 图片缩水：给按钮腾地方 */
+  .win-trophy {
+    width: 90px;
+    height: 90px;
+    margin: 10px 0; /* 减小间距 */
+  }
+  
+  /* C. 按钮微调 */
+  .game-container .game-message .lower {
+    margin-top: 5px !important;
+  }
+  
+  /* D. 按钮本身改小一点点，防止两个并排挤不下 */
+  .game-container .game-message a.keep-playing-button,
+  .game-container .game-message a.retry-button {
+    padding: 0 15px !important; /* 减小内边距 */
+    height: 40px !important;
+    line-height: 40px !important;
+    font-size: 14px !important;
+  }
+}
+/* --- 浩哥新增：按钮组布局 --- */
+.buttons-wrapper {
+  float: right;
+  display: flex;
+  gap: 10px; /* 两个按钮之间的间距 */
+}
+
+/* 覆盖原来的 restart-button 浮动，让 flex 接管 */
+.restart-button {
+  float: none !important;
+}
+
+/* --- 撤销按钮样式 (紫色魅惑) --- */
+.undo-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); /* 紫粉色渐变 */
+  box-shadow: 0 4px 15px rgba(161, 140, 209, 0.4);
+  border-radius: 25px;
+  padding: 0 20px;
+  text-decoration: none;
+  color: #fff !important;
+  height: 40px;
+  line-height: 42px;
+  text-align: center;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.undo-button:active {
+  transform: scale(0.95);
+}
+
+/* 手机适配：防止按钮挤压 */
+@media screen and (max-width: 520px) {
+  .buttons-wrapper {
+    width: 42%; /* 和原来的按钮宽度逻辑保持一致 */
+    flex-direction: column; /* 手机上上下排列，防止太挤 */
+    gap: 5px;
+    margin-top: 2px;
+  }
+  
+  .restart-button, .undo-button {
+    width: 100%; /* 占满容器 */
+    float: none !important;
+  }
+}
