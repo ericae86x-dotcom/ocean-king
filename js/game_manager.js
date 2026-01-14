@@ -91,6 +91,7 @@ GameManager.prototype.actuate = function () {
     this.storageManager.setGameState(this.serialize());
   }
 
+  // ... 原有代码 ...
   this.actuator.actuate(this.grid, {
     score:      this.score,
     over:       this.over,
@@ -98,6 +99,14 @@ GameManager.prototype.actuate = function () {
     bestScore:  this.storageManager.getBestScore(),
     terminated: this.isGameTerminated()
   });
+
+  // --- 浩哥新增：如果游戏结束了，或者分数很高，尝试上传 ---
+  // 必须用 window.userManager 访问，因为它是我们在 user_manager.js 里挂载的
+  if (this.over || this.won) {
+      if (window.userManager) {
+          window.userManager.saveScore(this.score);
+      }
+  }
 
 };
 

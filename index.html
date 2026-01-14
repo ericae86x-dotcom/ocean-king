@@ -27,6 +27,11 @@
     <audio id="audio-win" src="audio/win.mp3" preload="auto"></audio>
 </div>
   <div class="container">
+    <div class="user-profile">
+    <img id="user-avatar" src="" alt="User">
+    <span id="user-name">Loading...</span>
+    <button id="rank-btn" onclick="document.getElementById('leaderboard-modal').style.display='block'; window.userManager.getLeaderboard()">🏆 Rank</button>
+</div>
     <div class="heading">
       <h1 class="title">Ocean King</h1>
       <div class="scores-container">
@@ -104,6 +109,8 @@
   <script src="js/local_storage_manager.js"></script>
   <script src="js/game_manager.js"></script>
   <script src="js/application.js"></script>
+
+  <script type="module" src="js/user_manager.js"></script>
  <script>
     document.addEventListener("DOMContentLoaded", function() {
         
@@ -189,6 +196,15 @@
         }
     });
   </script>
+  <div id="leaderboard-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="document.getElementById('leaderboard-modal').style.display='none'">&times;</span>
+        <h2>🏆 Global Leaderboard</h2>
+        <ul id="rank-list">
+            <li>Loading...</li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
 </body>
